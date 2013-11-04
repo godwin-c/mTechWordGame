@@ -240,7 +240,8 @@ public class StateMachine extends StateMachineBase {
             if (vect.size() > 0) {
                 for (int i = 0; i < vect.size(); i++) {
                     Hashtable hash = vect.elementAt(i);
-                    //cs = new CompScore(getCurrentDate(), token);
+                    
+                    
                     cs = new CompScore((String) hash.get("date"), Integer.parseInt((String) hash.get("token")));
                     //switch (cs.compareTo(new CompScore((String)hash.get("date"), Integer.parseInt((String)hash.get("token"))))) {
                     switch (cs.compareTo(new CompScore(getCurrentDate(), token))) {
