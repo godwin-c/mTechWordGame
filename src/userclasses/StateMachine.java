@@ -6,7 +6,6 @@ package userclasses;
 import com.codename1.io.Storage;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
-import com.codename1.ui.animations.CommonTransitions;
 import com.codename1.ui.events.*;
 //import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.Resources;
@@ -16,8 +15,6 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 import com.mtechcomm.wordgame.CompScore;
 
@@ -35,7 +32,7 @@ public class StateMachine extends StateMachineBase {
     int time = 20;
     int count = 0;
     int length = 4;
-    int level = 1;
+    //int level = 1;
     UITimer ui;
     String currentDate;
     Vector<String> letter4 = new Vector<String>();
@@ -81,44 +78,224 @@ public class StateMachine extends StateMachineBase {
     }
 
     public void checkLength(int l) {
+        int k = 0;
         for (int j = 0; j < allWords.size(); j++) {
             String word = allWords.elementAt(j).toString();
-            int k = 0;
             if (word.trim().length() == l) {
                 //letter4 = word;
                 letter4.add(k, word.trim());
                 k++;
             }
         }
-        System.out.println("letter 4 :" + letter4);
+        //System.out.println("letter 4 :" + letter4);
     }
 
-    @Override
-    protected void beforePlayForm(final Form f) {
+    public void timerSeller(final Form f) {
         findTimeLabel(f).setText(String.valueOf(time));
-        //========================================================
-        // prln(String.valueOf("size "+allWords.size()));
         ui = new UITimer(new Runnable() {
             public void run() {
                 --time;
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
-                findTimeLabel(f).setText(String.valueOf(time));
-                // System.out.println(time);
+                System.out.println(time);
                 //f.revalidate();
-                if (time <= 0) {
+                if (time < 0) {
+                    ui.cancel();
+                    time = 20;
+                    Dialog.show("Oops!!", "Time up", "Ok", null);
+                    findTimeLabel(f).setText(String.valueOf(time));
+                    count++;
+                    token -= 10;
+                    findTokenLabel(f).setText("" + token);
+
+                    if (count == 3) {
+                        System.out.println("You have successfully completed stage 1");
+                        Dialog.show(":)", "You have completed this stage", "Continue", null);
+                        letter4.clear();
+                        count++;
+                        length++;
+                        checkLength(length);
+                        count = 0;
+                    }
+                    if (length == 9) {
+                        Dialog.show(":)", "You have completed the game", "Start over", null);
+                        length = 4;
+                        count = 0;
+                        checkLength(length);
+                    }
+                    tempLetter.clear();
+                    findContainer4(f).removeAll();
+                    findDisplayField(f).setText("");
+                    //showForm("playForm", null);
+
+                    //checkLength(length);
+
+                    Random rand = new Random();
+                    int n = rand.nextInt(letter4.size());
+                    tempWord = letter4.elementAt(n).trim();
+                    prln(tempWord);
+                    for (int letter = 0; letter < tempWord.length(); letter++) {
+                        tempLetter.add(String.valueOf(tempWord.charAt(letter)));
+                    }
+                    Collections.shuffle(tempLetter);
+                    prln(tempLetter.toString());
+                    for (int l = 0; l < tempWord.length(); l++) {
+                        final Button b = new Button();
+                        // b.setUIID("NewButton");
+                        //prln(tempWord);
+                        b.setText(tempLetter.elementAt(l)); //tempWord.substring(l, l + 1));//charAt(i));
+                        findContainer4(f).addComponent(b);
+                        b.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent evt) {
+                                findDisplayField(f).setText(findDisplayField(f).getText() + b.getText());
+                                b.setEnabled(false);
+                            }
+                        });
+                        f.revalidate();
+                    }     // prln("" + letter4);
+                    //timerSeller(f);
+
+                    prln("letter4 " + letter4.size());
+                    timerSeller(f);
+                } else {
+                    findTimeLabel(f).setText(String.valueOf(time));
                 }
             }
         });
-        // ui.schedule(1000, true, f);
-        time = 20;
+        ui.schedule(1000, true, f);
+
+    }
+
+    @Override
+    protected void beforePlayForm(final Form f) {
+        timerSeller(f);
+        final Command[] cmds = new Command[2];
+        cmds[0] = new Command("Yes") {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if (Storage.getInstance().exists("highScore")) {
+                    vect = new Vector<Hashtable>();
+                    vect = (Vector<Hashtable>) Storage.getInstance().readObject("highScore");
+                } else {
+                    vect = new Vector<Hashtable>();
+                }
+                Vector temp = new Vector();
+                Vector<Hashtable> temp2 = new Vector<Hashtable>();
+
+                h = new Hashtable();
+                h.put("token", String.valueOf(token));
+                h.put("date", getCurrentDate());
+                System.out.println("Is it adding hashtable h? : " + h);
+                vect.add(h);
+
+                for (int i = 0; i < vect.size(); i++) {
+                    Hashtable hash = vect.elementAt(i);
+                    String s = (String) hash.get("token");
+                    temp.add(Integer.parseInt(s));
+
+                }
+                System.out.println("unsorted : " + temp);
+                Collections.sort(temp);
+                System.out.println("sorted list : " + temp);
+
+                for (int j = 0; j < temp.size(); j++) {
+                    String ikl = String.valueOf(temp.elementAt(j));
+
+                    for (int i = 0; i < vect.size(); i++) {
+                        Hashtable hk = new Hashtable();
+                        Hashtable hash = (Hashtable) vect.elementAt(i);
+                        String s = (String) hash.get("token");
+                        System.out.println("ikl and s are respectively " + ikl + " and " + s);
+                        if (Integer.parseInt(s) == Integer.parseInt(ikl)) {
+
+                            hk.put("date", (String) hash.get("date"));
+                            hk.put("token", (String) hash.get("token"));
+                            System.out.println("hk: " + hk);
+                            temp2.add(hk);
+
+                        } else {
+                            System.out.println("It could not get hk : ");
+                        }
+                    }
+                }
+                // System.out.println("Temp2 size : " + temp2.size());
+                //Storage.getInstance().writeObject("highScore", temp2);
+                System.out.println("Temp 2 : " + temp2);
+                Vector<Hashtable> temp3 = new Vector<Hashtable>();
+
+                if (temp2.size() > 5) {
+                    for (int i = temp2.size() - 1; i > temp2.size() - 6; i--) {
+                        temp3.add(temp2.elementAt(i));
+                    }
+                    //Storage.getInstance().writeObject("highScore", temp3);
+                } else {
+                    for (int i = temp2.size() - 1; i >= 0; i--) {
+                        temp3.add(temp2.elementAt(i));
+                    }
+
+                }
+                Storage.getInstance().writeObject("highScore", temp3);
+
+
+                vect.clear();
+//                    //Storage.getInstance().writeObject("", c);
+//                } else {
+//                    h = new Hashtable();
+//
+//                    h.put("token", String.valueOf(token));
+//                    h.put("date", getCurrentDate());
+//                    vect.add(h);
+//                    Storage.getInstance().writeObject("highScore", vect);
+//
+//                }
+                //Dialog.show(":)", "You have completed the game", "Start over", null);
+                length = 4;
+                count = 0;
+                // level = 1;
+                point = 10;
+                token = 0;
+                checkLength(length);
+                //======================================================
+                Display.getInstance().exitApplication();
+            }
+        };
+        cmds[1] = new Command("No") {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                if ((Display.getInstance().getCurrent()) instanceof Dialog) {
+                    ((Dialog) Display.getInstance().getCurrent()).dispose();
+
+                }
+            }
+        };
+
+
+        f.addCommand(new Command("Exit") {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                TextArea text = new TextArea();
+                text.setText("Are you sure you want exit?");
+                text.setEditable(false);
+                //super.actionPerformed(evt); //To change body of generated methods, choose Tools | Templates.
+                Dialog.show("Hurray!!!", text, cmds);
+            }
+        });
+        findTimeLabel(f).setText(String.valueOf(time));
+        //========================================================
+        // prln(String.valueOf("size "+allWords.size()));
+        //  timerSeller(f);
+
         findTokenLabel(f).setText("" + token);
         checkLength(length);
-
         Random rand = new Random();
         int n = rand.nextInt(letter4.size());
+        tempWord = "";
         tempWord = letter4.elementAt(n).trim();
         prln(tempWord);
+        if (tempLetter != null) {
+            tempLetter.clear();
+        }
+
         for (int letter = 0; letter < tempWord.length(); letter++) {
             tempLetter.add(String.valueOf(tempWord.charAt(letter)));
         }
@@ -127,6 +304,7 @@ public class StateMachine extends StateMachineBase {
         for (int l = 0; l < tempWord.length(); l++) {
             final Button b = new Button();
             //prln(tempWord);
+            //b.setUIID("NewButton");
             b.setText(tempLetter.elementAt(l)); //tempWord.substring(l, l + 1));//charAt(i));
             findContainer4(f).addComponent(b);
             b.addActionListener(new ActionListener() {
@@ -138,11 +316,24 @@ public class StateMachine extends StateMachineBase {
         }     // prln("" + letter4);
         prln("letter4 " + letter4.size());
 
+        f.setBackCommand(new Command("Back") {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                // super.actionPerformed(evt); //To change body of generated methods, choose Tools | Templates.
+                tempLetter.clear();
+                back();
+            }
+        });
+
     }
 
     @Override
     protected void beforeMenuForm(final Form f) {
-        //Storage.getInstance().clearStorage();
+//        if(letter4!=null){
+//            letter4.clear();
+//            tempWord=null;
+//        }
+        // Storage.getInstance().clearStorage();
         Display.getInstance().lockOrientation(true);
         //f.setTransitionInAnimator(CommonTransitions.createSlide(0, true, 2000));
         f.revalidate();
@@ -159,6 +350,18 @@ public class StateMachine extends StateMachineBase {
         }
         c4.setShouldCalcPreferredSize(true);
         c4.animateLayout(2000);
+
+        Command exit = new Command("Exit") {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                //super.actionPerformed(evt); //To change body of generated methods, choose Tools | Templates.
+                Display.getInstance().exitApplication();
+            }
+        };
+        f.addCommand(exit);
+
+//     Image lbI = fetchResourceFile().getImage("mtechlogo2.png");
+//     findLabel(f).setIcon(lbI.scaledWidth(Display.getInstance().getDisplayWidth() / 3));
     }
 
     private void printFile() {
@@ -173,8 +376,8 @@ public class StateMachine extends StateMachineBase {
             }
             // allWords.add(  sb.toString().split("\n"));
 
-            allWords = StringUtil.tokenizeString(sb.toString().toLowerCase(), "\n");
-
+            //allWords = StringUtil.tokenizeString(sb.toString().toLowerCase(), "\n");
+            allWords = (Vector<String>) StringUtil.tokenize(sb.toString().toLowerCase(), "\n");
             prln(String.valueOf(allWords.size()));
             //return sb.toString();
         } catch (Exception e) {
@@ -186,15 +389,13 @@ public class StateMachine extends StateMachineBase {
 //        }
     }
 
-    @Override
-    protected void onPlayForm_CheckButtonAction(final Component c, ActionEvent event) {
-
+    private void checkAnswer(final Form f) {
         boolean found = false;
         for (int i = 0; i < allWords.size(); i++) {
             string = (String) allWords.elementAt(i);
             // System.out.println("String to be tested :"+string);
             // System.out.println("String typed : "+findDisplayField(c).getText());
-            if (string.equals(findDisplayField(c).getText().trim())) {
+            if (string.equals(findDisplayField(f).getText().trim())) {
                 found = true;
                 //Dialog.show(":)", "Correct", "Ok", null);
                 break;
@@ -205,93 +406,131 @@ public class StateMachine extends StateMachineBase {
         }
         System.out.println(found);
         if (found) {
-            point *= findDisplayField(c).getText().length();
+            point *= findDisplayField(f).getText().length();
             token += point;
-            if (findDisplayField(c).getText().length() == tempWord.length()) {
-
+            if (findDisplayField(f).getText().length() == tempWord.length()) {
                 token += 10;
                 System.out.println("10 tokens have been added");
+                Dialog.show(":)", "Correct", "Ok", null);
+            } else {
+                Dialog.show(":)", "Correct but '" + tempWord + "' would have earned you more points", "Ok", null);
             }
             System.out.println("points = " + point + " and token is " + token);
-            findTokenLabel(c).setText("" + token);
-            Dialog.show(":)", "Correct", "Ok", null);
+            findTokenLabel(f).setText("" + token);
 
+//            ui.cancel();
+            //time = 20;
+            //  timerSeller(f);
+            System.out.println("Time cancelled");
             point = 10;
         } else {
-            Dialog.show(":(", "Wrong", "Ok", null);
+            Dialog.show(":(", "Wrong. Try '" + tempWord + "' next time", "Ok", null);
+            //ui.cancel();
+            //time = 20;
+            // timerSeller(f);
+            System.out.println("Time cancelledd");
             token -= 10;
-            findTokenLabel(c).setText("" + token);
+            findTokenLabel(f).setText("" + token);
         }
-        time = 20;
         count++;
-        prln(tempWord);
         System.out.println("You have used " + count + " words");
         if (count == 3) {
+            Dialog.show(":)", "You have completed this stage", "Continue", null);
+            letter4.clear();
+            count = 0;
+            length++;
+            checkLength(length);
+            System.out.println("Using lengh equals " + length);
 
-            System.out.println("You have successfully completed stage 1");
+        }
+        if (length == 9) {
             if (Storage.getInstance().exists("highScore")) {
-
+                vect = new Vector<Hashtable>();
                 vect = (Vector<Hashtable>) Storage.getInstance().readObject("highScore");
-
             } else {
                 vect = new Vector<Hashtable>();
             }
+            Vector temp = new Vector();
+            Vector<Hashtable> temp2 = new Vector<Hashtable>();
 
-            if (vect.size() > 0) {
+            h = new Hashtable();
+            h.put("token", String.valueOf(token));
+            h.put("date", getCurrentDate());
+            System.out.println("Is it adding hashtable h? : " + h);
+            vect.add(h);
+
+            for (int i = 0; i < vect.size(); i++) {
+                Hashtable hash = vect.elementAt(i);
+                String s = (String) hash.get("token");
+                temp.add(Integer.parseInt(s));
+
+            }
+            System.out.println("unsorted : " + temp);
+            Collections.sort(temp);
+            System.out.println("sorted list : " + temp);
+
+            for (int j = 0; j < temp.size(); j++) {
+                String ikl = String.valueOf(temp.elementAt(j));
+
                 for (int i = 0; i < vect.size(); i++) {
-                    Hashtable hash = vect.elementAt(i);
-                    
-                    
-                    cs = new CompScore((String) hash.get("date"), Integer.parseInt((String) hash.get("token")));
-                    //switch (cs.compareTo(new CompScore((String)hash.get("date"), Integer.parseInt((String)hash.get("token"))))) {
-                    switch (cs.compareTo(new CompScore(getCurrentDate(), token))) {
-                        case 1:
-                            System.out.println(token + " compared to " + (String) hash.get("token"));
-                            h.put("token", String.valueOf(token));
-                            h.put("date", getCurrentDate());
-                            vect.add(h);
-                            System.out.println("greater");
-                            break;
-                        case -1:
-                            System.out.println(token + " compared to " + (String) hash.get("token"));
-                            System.out.println("lesser");
-                            break;
-                        case 0:
-                            System.out.println(token + " compared to " + (String) hash.get("token"));
-                            System.out.println("equal");
-                            break;
+                    Hashtable hk = new Hashtable();
+                    Hashtable hash = (Hashtable) vect.elementAt(i);
+                    String s = (String) hash.get("token");
+                    System.out.println("ikl and s are respectively " + ikl + " and " + s);
+                    if (Integer.parseInt(s) == Integer.parseInt(ikl)) {
+
+                        hk.put("date", (String) hash.get("date"));
+                        hk.put("token", (String) hash.get("token"));
+                        System.out.println("hk: " + hk);
+                        temp2.add(hk);
+
+                    } else {
+                        System.out.println("It could not get hk : ");
                     }
                 }
-            } else {
-                h = new Hashtable();
-
-                h.put("token", String.valueOf(token));
-                h.put("date", getCurrentDate());
-                vect.add(h);
             }
+            // System.out.println("Temp2 size : " + temp2.size());
+            //Storage.getInstance().writeObject("highScore", temp2);
+            System.out.println("Temp 2 : " + temp2);
+            Vector<Hashtable> temp3 = new Vector<Hashtable>();
+
+            if (temp2.size() > 5) {
+                for (int i = temp2.size() - 1; i > temp2.size() - 6; i--) {
+                    temp3.add(temp2.elementAt(i));
+                }
+                //Storage.getInstance().writeObject("highScore", temp3);
+            } else {
+                for (int i = temp2.size() - 1; i >= 0; i--) {
+                    temp3.add(temp2.elementAt(i));
+                }
+
+            }
+            Storage.getInstance().writeObject("highScore", temp3);
 
 
-            Storage.getInstance().writeObject("highScore", vect);
-            System.out.println("" + h);
-            Dialog.show(":)", "You have completed this stage", "Continue", null);
-            letter4.clear();
-            count++;
-            length++;
-            level++;
-            checkLength(length);
-            count = 0;
-        }
-        if (length == 9) {
-
+            vect.clear();
+//                    //Storage.getInstance().writeObject("", c);
+//                } else {
+//                    h = new Hashtable();
+//
+//                    h.put("token", String.valueOf(token));
+//                    h.put("date", getCurrentDate());
+//                    vect.add(h);
+//                    Storage.getInstance().writeObject("highScore", vect);
+//
+//                }
             Dialog.show(":)", "You have completed the game", "Start over", null);
             length = 4;
             count = 0;
-            level = 1;
+            // level = 1;
+            point = 10;
+            token = 0;
             checkLength(length);
+
         }
         tempLetter.clear();
-        findContainer4(c.getComponentForm()).removeAll();
-        findDisplayField(c).setText("");
+        findContainer4(f).removeAll();
+        findDisplayField(f).setText("");
         //showForm("playForm", null);
         Random rand = new Random();
         int n = rand.nextInt(letter4.size());
@@ -303,18 +542,26 @@ public class StateMachine extends StateMachineBase {
 
         for (int l = 0; l < tempWord.length(); l++) {
             final Button b = new Button();
+            // b.setUIID("NewButton");
             // prln(tempWord);
             b.setText(tempLetter.elementAt(l)); //tempWord.substring(l, l + 1));//charAt(i));
-            findContainer4(c.getComponentForm()).addComponent(b);
+            findContainer4(f).addComponent(b);
             b.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
-                    findDisplayField(c.getComponentForm()).setText(findDisplayField(c.getComponentForm()).getText() + b.getText());
+                    findDisplayField(f).setText(findDisplayField(f).getText() + b.getText());
                     b.setEnabled(false);
                 }
             });
         }     // prln("" + letter4);
-        c.getComponentForm().revalidate();
+        f.revalidate();
+    }
 
+    @Override
+    protected void onPlayForm_CheckButtonAction(final Component c, ActionEvent event) {
+        ui.cancel();
+        time = 20;
+        checkAnswer(c.getComponentForm());
+        timerSeller(c.getComponentForm());
     }
 
     @Override
@@ -344,10 +591,15 @@ public class StateMachine extends StateMachineBase {
             count = 0;
         }
         if (length == 9) {
-            Dialog.show(":)", "You have completed the game", "Start over", null);
-            length = 4;
-            count = 0;
-            checkLength(length);
+            if (Dialog.show(":)", "You have completed the game, Start over?", "yes", "no") ) {
+                length = 4;
+                count = 0;
+                checkLength(length);
+            } else {
+                back();
+            }
+            //;
+
         }
         tempLetter.clear();
         findContainer4(c.getComponentForm()).removeAll();
@@ -368,6 +620,7 @@ public class StateMachine extends StateMachineBase {
         for (int l = 0; l < tempWord.length(); l++) {
             final Button b = new Button();
             //prln(tempWord);
+            // b.setUIID("NewButton");
             b.setText(tempLetter.elementAt(l)); //tempWord.substring(l, l + 1));//charAt(i));
             findContainer4(c.getComponentForm()).addComponent(b);
             b.addActionListener(new ActionListener() {
@@ -427,7 +680,7 @@ public class StateMachine extends StateMachineBase {
             for (int i = 0; i < vect.size(); i++) {
 
                 Hashtable string1 = vect.elementAt(i);
-                f.addComponent(addHighScore("" + i, "" + string1.get("date"), "" + string1.get("token")));
+                f.addComponent(addHighScore(i, "" + string1.get("date"), "" + string1.get("token")));
 
             }
         }
@@ -435,10 +688,10 @@ public class StateMachine extends StateMachineBase {
         f.addComponent(b);
     }
 
-    public Container addHighScore(String j, String date, String score) {
+    public Container addHighScore(int j, String date, String score) {
         Resources res = fetchResourceFile();
         final Container c = createContainer(res, "scoreRenderer");
-        findCountLabel(c).setText(String.valueOf(j));
+        findCountLabel(c).setText(String.valueOf(j + 1));
         findDateLabel(c).setText(date);
         findPointLabel(c).setText(score);
 //        List l = new List();
@@ -462,4 +715,8 @@ public class StateMachine extends StateMachineBase {
     protected void onMenuForm_ScoresButtonAction(Component c, ActionEvent event) {
         showForm("HighScores", null);
     }
+//    @Override
+//    protected boolean allowBackTo(String formName) {
+//        return false;//To change body of generated methods, choose Tools | Templates.
+//    }
 }

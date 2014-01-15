@@ -10,6 +10,7 @@ package generated;
 import com.codename1.ui.*;
 import com.codename1.ui.util.*;
 import com.codename1.ui.plaf.*;
+import java.util.Hashtable;
 import com.codename1.ui.events.*;
 
 public abstract class StateMachineBase extends UIBuilder {
@@ -259,18 +260,6 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Button findClearButton(Component root) {
-        return (com.codename1.ui.Button)findByName("clearButton", root);
-    }
-
-    public com.codename1.ui.Button findClearButton() {
-        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("clearButton", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Button)findByName("clearButton", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
     public com.codename1.ui.TextField findDisplayField(Component root) {
         return (com.codename1.ui.TextField)findByName("displayField", root);
     }
@@ -283,14 +272,14 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Button findPlayButton(Component root) {
-        return (com.codename1.ui.Button)findByName("playButton", root);
+    public com.codename1.ui.Button findClearButton(Component root) {
+        return (com.codename1.ui.Button)findByName("clearButton", root);
     }
 
-    public com.codename1.ui.Button findPlayButton() {
-        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("playButton", Display.getInstance().getCurrent());
+    public com.codename1.ui.Button findClearButton() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("clearButton", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Button)findByName("playButton", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.Button)findByName("clearButton", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -303,6 +292,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Container", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Container)findByName("Container", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findPlayButton(Component root) {
+        return (com.codename1.ui.Button)findByName("playButton", root);
+    }
+
+    public com.codename1.ui.Button findPlayButton() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("playButton", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("playButton", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -331,18 +332,6 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Label findDateLabel(Component root) {
-        return (com.codename1.ui.Label)findByName("dateLabel", root);
-    }
-
-    public com.codename1.ui.Label findDateLabel() {
-        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("dateLabel", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Label)findByName("dateLabel", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
     public com.codename1.ui.Label findSplashLabel(Component root) {
         return (com.codename1.ui.Label)findByName("splashLabel", root);
     }
@@ -351,6 +340,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("splashLabel", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Label)findByName("splashLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Label findDateLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("dateLabel", root);
+    }
+
+    public com.codename1.ui.Label findDateLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("dateLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("dateLabel", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -380,32 +381,8 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void exitForm(Form f) {
-        if("playForm".equals(f.getName())) {
-            exitPlayForm(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("HighScores".equals(f.getName())) {
-            exitHighScores(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("scoreRenderer".equals(f.getName())) {
             exitScoreRenderer(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("Main".equals(f.getName())) {
-            exitMain(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("splashScreen".equals(f.getName())) {
-            exitSplashScreen(f);
             aboutToShowThisContainer = null;
             return;
         }
@@ -416,14 +393,31 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-    }
+        if("Main".equals(f.getName())) {
+            exitMain(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("playForm".equals(f.getName())) {
+            exitPlayForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void exitPlayForm(Form f) {
-    }
+        if("splashScreen".equals(f.getName())) {
+            exitSplashScreen(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("HighScores".equals(f.getName())) {
+            exitHighScores(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void exitHighScores(Form f) {
+            return;
     }
 
 
@@ -431,7 +425,15 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void exitMenuForm(Form f) {
+    }
+
+
     protected void exitMain(Form f) {
+    }
+
+
+    protected void exitPlayForm(Form f) {
     }
 
 
@@ -439,37 +441,13 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void exitMenuForm(Form f) {
+    protected void exitHighScores(Form f) {
     }
 
     protected void beforeShow(Form f) {
     aboutToShowThisContainer = f;
-        if("playForm".equals(f.getName())) {
-            beforePlayForm(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("HighScores".equals(f.getName())) {
-            beforeHighScores(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("scoreRenderer".equals(f.getName())) {
             beforeScoreRenderer(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("Main".equals(f.getName())) {
-            beforeMain(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("splashScreen".equals(f.getName())) {
-            beforeSplashScreen(f);
             aboutToShowThisContainer = null;
             return;
         }
@@ -480,14 +458,31 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-    }
+        if("Main".equals(f.getName())) {
+            beforeMain(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("playForm".equals(f.getName())) {
+            beforePlayForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void beforePlayForm(Form f) {
-    }
+        if("splashScreen".equals(f.getName())) {
+            beforeSplashScreen(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("HighScores".equals(f.getName())) {
+            beforeHighScores(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void beforeHighScores(Form f) {
+            return;
     }
 
 
@@ -495,7 +490,15 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void beforeMenuForm(Form f) {
+    }
+
+
     protected void beforeMain(Form f) {
+    }
+
+
+    protected void beforePlayForm(Form f) {
     }
 
 
@@ -503,37 +506,13 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void beforeMenuForm(Form f) {
+    protected void beforeHighScores(Form f) {
     }
 
     protected void beforeShowContainer(Container c) {
-    aboutToShowThisContainer = c;
-        if("playForm".equals(c.getName())) {
-            beforeContainerPlayForm(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("HighScores".equals(c.getName())) {
-            beforeContainerHighScores(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
+        aboutToShowThisContainer = c;
         if("scoreRenderer".equals(c.getName())) {
             beforeContainerScoreRenderer(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("Main".equals(c.getName())) {
-            beforeContainerMain(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("splashScreen".equals(c.getName())) {
-            beforeContainerSplashScreen(c);
             aboutToShowThisContainer = null;
             return;
         }
@@ -544,14 +523,31 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-    }
+        if("Main".equals(c.getName())) {
+            beforeContainerMain(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("playForm".equals(c.getName())) {
+            beforeContainerPlayForm(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void beforeContainerPlayForm(Container c) {
-    }
+        if("splashScreen".equals(c.getName())) {
+            beforeContainerSplashScreen(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("HighScores".equals(c.getName())) {
+            beforeContainerHighScores(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void beforeContainerHighScores(Container c) {
+            return;
     }
 
 
@@ -559,7 +555,15 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void beforeContainerMenuForm(Container c) {
+    }
+
+
     protected void beforeContainerMain(Container c) {
+    }
+
+
+    protected void beforeContainerPlayForm(Container c) {
     }
 
 
@@ -567,36 +571,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void beforeContainerMenuForm(Container c) {
+    protected void beforeContainerHighScores(Container c) {
     }
 
     protected void postShow(Form f) {
-        if("playForm".equals(f.getName())) {
-            postPlayForm(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("HighScores".equals(f.getName())) {
-            postHighScores(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("scoreRenderer".equals(f.getName())) {
             postScoreRenderer(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("Main".equals(f.getName())) {
-            postMain(f);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("splashScreen".equals(f.getName())) {
-            postSplashScreen(f);
             aboutToShowThisContainer = null;
             return;
         }
@@ -607,14 +587,31 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-    }
+        if("Main".equals(f.getName())) {
+            postMain(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("playForm".equals(f.getName())) {
+            postPlayForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void postPlayForm(Form f) {
-    }
+        if("splashScreen".equals(f.getName())) {
+            postSplashScreen(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("HighScores".equals(f.getName())) {
+            postHighScores(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void postHighScores(Form f) {
+            return;
     }
 
 
@@ -622,7 +619,15 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void postMenuForm(Form f) {
+    }
+
+
     protected void postMain(Form f) {
+    }
+
+
+    protected void postPlayForm(Form f) {
     }
 
 
@@ -630,36 +635,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void postMenuForm(Form f) {
+    protected void postHighScores(Form f) {
     }
 
     protected void postShowContainer(Container c) {
-        if("playForm".equals(c.getName())) {
-            postContainerPlayForm(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("HighScores".equals(c.getName())) {
-            postContainerHighScores(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("scoreRenderer".equals(c.getName())) {
             postContainerScoreRenderer(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("Main".equals(c.getName())) {
-            postContainerMain(c);
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("splashScreen".equals(c.getName())) {
-            postContainerSplashScreen(c);
             aboutToShowThisContainer = null;
             return;
         }
@@ -670,14 +651,31 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-    }
+        if("Main".equals(c.getName())) {
+            postContainerMain(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("playForm".equals(c.getName())) {
+            postContainerPlayForm(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void postContainerPlayForm(Container c) {
-    }
+        if("splashScreen".equals(c.getName())) {
+            postContainerSplashScreen(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("HighScores".equals(c.getName())) {
+            postContainerHighScores(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void postContainerHighScores(Container c) {
+            return;
     }
 
 
@@ -685,7 +683,15 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void postContainerMenuForm(Container c) {
+    }
+
+
     protected void postContainerMain(Container c) {
+    }
+
+
+    protected void postContainerPlayForm(Container c) {
     }
 
 
@@ -693,36 +699,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void postContainerMenuForm(Container c) {
+    protected void postContainerHighScores(Container c) {
     }
 
     protected void onCreateRoot(String rootName) {
-        if("playForm".equals(rootName)) {
-            onCreatePlayForm();
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("HighScores".equals(rootName)) {
-            onCreateHighScores();
-            aboutToShowThisContainer = null;
-            return;
-        }
-
         if("scoreRenderer".equals(rootName)) {
             onCreateScoreRenderer();
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("Main".equals(rootName)) {
-            onCreateMain();
-            aboutToShowThisContainer = null;
-            return;
-        }
-
-        if("splashScreen".equals(rootName)) {
-            onCreateSplashScreen();
             aboutToShowThisContainer = null;
             return;
         }
@@ -733,14 +715,31 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-    }
+        if("Main".equals(rootName)) {
+            onCreateMain();
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("playForm".equals(rootName)) {
+            onCreatePlayForm();
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void onCreatePlayForm() {
-    }
+        if("splashScreen".equals(rootName)) {
+            onCreateSplashScreen();
+            aboutToShowThisContainer = null;
+            return;
+        }
 
+        if("HighScores".equals(rootName)) {
+            onCreateHighScores();
+            aboutToShowThisContainer = null;
+            return;
+        }
 
-    protected void onCreateHighScores() {
+            return;
     }
 
 
@@ -748,7 +747,15 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void onCreateMenuForm() {
+    }
+
+
     protected void onCreateMain() {
+    }
+
+
+    protected void onCreatePlayForm() {
     }
 
 
@@ -756,7 +763,137 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void onCreateMenuForm() {
+    protected void onCreateHighScores() {
+    }
+
+    protected Hashtable getFormState(Form f) {
+        Hashtable h = super.getFormState(f);
+        if("scoreRenderer".equals(f.getName())) {
+            getStateScoreRenderer(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("MenuForm".equals(f.getName())) {
+            getStateMenuForm(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("Main".equals(f.getName())) {
+            getStateMain(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("playForm".equals(f.getName())) {
+            getStatePlayForm(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("splashScreen".equals(f.getName())) {
+            getStateSplashScreen(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+        if("HighScores".equals(f.getName())) {
+            getStateHighScores(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
+            return h;
+    }
+
+
+    protected void getStateScoreRenderer(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateMenuForm(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateMain(Form f, Hashtable h) {
+    }
+
+
+    protected void getStatePlayForm(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateSplashScreen(Form f, Hashtable h) {
+    }
+
+
+    protected void getStateHighScores(Form f, Hashtable h) {
+    }
+
+    protected void setFormState(Form f, Hashtable state) {
+        super.setFormState(f, state);
+        if("scoreRenderer".equals(f.getName())) {
+            setStateScoreRenderer(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("MenuForm".equals(f.getName())) {
+            setStateMenuForm(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("Main".equals(f.getName())) {
+            setStateMain(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("playForm".equals(f.getName())) {
+            setStatePlayForm(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("splashScreen".equals(f.getName())) {
+            setStateSplashScreen(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+        if("HighScores".equals(f.getName())) {
+            setStateHighScores(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
+            return;
+    }
+
+
+    protected void setStateScoreRenderer(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateMenuForm(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateMain(Form f, Hashtable state) {
+    }
+
+
+    protected void setStatePlayForm(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateSplashScreen(Form f, Hashtable state) {
+    }
+
+
+    protected void setStateHighScores(Form f, Hashtable state) {
     }
 
     protected void handleComponentAction(Component c, ActionEvent event) {
@@ -768,6 +905,20 @@ public abstract class StateMachineBase extends UIBuilder {
             c = c.getParent().getLeadParent();
         }
         if(rootContainerName == null) return;
+        if(rootContainerName.equals("MenuForm")) {
+            if("playButton".equals(c.getName())) {
+                onMenuForm_PlayButtonAction(c, event);
+                return;
+            }
+            if("instrButton".equals(c.getName())) {
+                onMenuForm_InstrButtonAction(c, event);
+                return;
+            }
+            if("scoresButton".equals(c.getName())) {
+                onMenuForm_ScoresButtonAction(c, event);
+                return;
+            }
+        }
         if(rootContainerName.equals("playForm")) {
             if("displayField".equals(c.getName())) {
                 onPlayForm_DisplayFieldAction(c, event);
@@ -786,21 +937,16 @@ public abstract class StateMachineBase extends UIBuilder {
                 return;
             }
         }
-        if(rootContainerName.equals("MenuForm")) {
-            if("playButton".equals(c.getName())) {
-                onMenuForm_PlayButtonAction(c, event);
-                return;
-            }
-            if("instrButton".equals(c.getName())) {
-                onMenuForm_InstrButtonAction(c, event);
-                return;
-            }
-            if("scoresButton".equals(c.getName())) {
-                onMenuForm_ScoresButtonAction(c, event);
-                return;
-            }
-        }
     }
+
+      protected void onMenuForm_PlayButtonAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMenuForm_InstrButtonAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMenuForm_ScoresButtonAction(Component c, ActionEvent event) {
+      }
 
       protected void onPlayForm_DisplayFieldAction(Component c, ActionEvent event) {
       }
@@ -812,15 +958,6 @@ public abstract class StateMachineBase extends UIBuilder {
       }
 
       protected void onPlayForm_NewButtonAction(Component c, ActionEvent event) {
-      }
-
-      protected void onMenuForm_PlayButtonAction(Component c, ActionEvent event) {
-      }
-
-      protected void onMenuForm_InstrButtonAction(Component c, ActionEvent event) {
-      }
-
-      protected void onMenuForm_ScoresButtonAction(Component c, ActionEvent event) {
       }
 
 }

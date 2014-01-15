@@ -5,7 +5,6 @@
 package com.mtechcomm.wordgame;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  *
@@ -22,6 +21,7 @@ public class sortingFile {
         al.add(5);
         al.add(6);
         
+       
         for(int i = 0; i<al.size(); i++){
            // for(int j = 0;j<al.size(); j++){
 //                if(Integer.parseInt(al.get(i).toString())> x){

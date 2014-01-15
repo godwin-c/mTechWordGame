@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource majorVersion="1" minorVersion="6">
+    <image name="GodwinBG.jpg"  />
+    <ui name="HighScores" />
+    <ui name="Main" />
+    <ui name="MenuForm" />
+    <image name="mtechlogo2.png"  />
+    <image name="NewButton.borderBottom_1.png" type="multi"  />
+    <image name="NewButton.borderBottom_2.png" type="multi"  />
+    <image name="NewButton.borderBottomL_1.png" type="multi"  />
+    <image name="NewButton.borderBottomL_2.png" type="multi"  />
+    <image name="NewButton.borderBottomR_1.png" type="multi"  />
+    <image name="NewButton.borderBottomR_2.png" type="multi"  />
+    <image name="NewButton.borderCenter_1.png" type="multi"  />
+    <image name="NewButton.borderCenter_2.png" type="multi"  />
+    <image name="NewButton.borderLeft_1.png" type="multi"  />
+    <image name="NewButton.borderLeft_2.png" type="multi"  />
+    <image name="NewButton.borderRight_1.png" type="multi"  />
+    <image name="NewButton.borderRight_2.png" type="multi"  />
+    <image name="NewButton.borderTop_1.png" type="multi"  />
+    <image name="NewButton.borderTop_2.png" type="multi"  />
+    <image name="NewButton.borderTopL_1.png" type="multi"  />
+    <image name="NewButton.borderTopL_2.png" type="multi"  />
+    <image name="NewButton.borderTopR_1.png" type="multi"  />
+    <image name="NewButton.borderTopR_2.png" type="multi"  />
+    <ui name="playForm" />
+    <ui name="scoreRenderer" />
+    <image name="splash.png"  />
+    <ui name="splashScreen" />
+    <theme name="Theme">
+        <val key="@includeNativeBool" value="true" />
+        <val key="Button.dis#bgColor" value="0" />
+        <val key="Button.padUnit" value="2,2,2,2" />
+        <val key="Button.padding" value="0,0,2,2" />
+        <val key="Form.bgImage" value="GodwinBG.jpg" />
+        <val key="Form.bgType" value="1" />
+        <val key="Label.align" value="4" />
+        <val key="Label.fgColor" value="ff9900" />
+        <val key="Label.transparency" value="0" />
+        <gradient key="NewButton.bgGradient" color1="16763955" color2="0" posX="0.5" posY="0.5" radius="2.0" />
+        <val key="NewButton.bgType" value="7" />
+        <border key="NewButton.border" type="bevelRaised" thickness="2" color="0" colorB="0" colorC="0" colorD="0" />
+        <val key="NewButton.fgColor" value="000000" />
+        <val key="splashScreen.bgImage" value="splash.png" />
+        <val key="splashScreen.bgType" value="1" />
+    </theme>
+    <image name="WHITEBACKGROUND.png"  />
+</resource>

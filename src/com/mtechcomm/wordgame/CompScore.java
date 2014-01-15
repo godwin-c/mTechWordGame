@@ -4,6 +4,8 @@
  */
 package com.mtechcomm.wordgame;
 
+import java.util.Collections;
+
 /**
  *
  * @author LANREWAJU
@@ -62,6 +64,7 @@ public class CompScore implements Comparable<CompScore> {
        // System.out.println("" + cs.getScores());
 
         //System.out.println("" + cs.compareTo(new CompScore("", 8)));
+        //Collections.sort(null, args);
         switch (cs.compareTo(new CompScore("56735378", 9))) {
             case 1:
                 System.out.println("greater");
