@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Dialog" name="HighScores" cloudDestinationProperty="HighScores" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  <component type="Container" name="Container" cloudDestinationProperty="Container" uiid="Form" layout="BoxLayout" boxLayoutAxis="Y" >
+    <layoutConstraint value="Center" />
+  </component>
+</component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="scoreRenderer" cloudDestinationProperty="scoreRenderer" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  <component type="Label" name="countLabel" cloudDestinationProperty="countLabel" text="Label" >
+    <layoutConstraint value="West" />
+  </component>
+  <component type="Label" name="dateLabel" cloudDestinationProperty="dateLabel" text="Label" >
+    <layoutConstraint value="Center" />
+  </component>
+  <component type="Label" name="pointLabel" cloudDestinationProperty="pointLabel" text="Label" >
+    <layoutConstraint value="East" />
+  </component>
+</component>

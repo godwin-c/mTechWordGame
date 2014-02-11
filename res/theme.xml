@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<resource majorVersion="1" minorVersion="6">
+<resource majorVersion="1" minorVersion="6" useXmlUI="false">
+    <image name="correct.png"  />
     <image name="GodwinBG.jpg"  />
     <ui name="HighScores" />
     <ui name="Main" />
     <ui name="MenuForm" />
-    <image name="mtechlogo2.png"  />
     <image name="NewButton.borderBottom_1.png" type="multi"  />
     <image name="NewButton.borderBottom_2.png" type="multi"  />
     <image name="NewButton.borderBottomL_1.png" type="multi"  />
@@ -24,15 +24,24 @@
     <image name="NewButton.borderTopL_2.png" type="multi"  />
     <image name="NewButton.borderTopR_1.png" type="multi"  />
     <image name="NewButton.borderTopR_2.png" type="multi"  />
+    <image name="oneCorrect.png"  />
     <ui name="playForm" />
     <ui name="scoreRenderer" />
     <image name="splash.png"  />
     <ui name="splashScreen" />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
+        <val key="Button.align" value="4" />
+        <val key="Button.bgColor" value="ff6600" />
         <val key="Button.dis#bgColor" value="0" />
-        <val key="Button.padUnit" value="2,2,2,2" />
-        <val key="Button.padding" value="0,0,2,2" />
+        <val key="DialogBody.align" value="4" />
+        <val key="DialogBody.bgImage" value="GodwinBG.jpg" />
+        <val key="DialogBody.bgType" value="1" />
+        <val key="DialogBody.fgColor" value="ffffff" />
+        <val key="DialogBody.sel#align" value="4" />
+        <val key="DialogBody.sel#bgImage" value="GodwinBG.jpg" />
+        <val key="DialogBody.sel#bgType" value="1" />
+        <val key="DialogBody.sel#fgColor" value="ffffff" />
         <val key="Form.bgImage" value="GodwinBG.jpg" />
         <val key="Form.bgType" value="1" />
         <val key="Label.align" value="4" />
@@ -42,8 +51,11 @@
         <val key="NewButton.bgType" value="7" />
         <border key="NewButton.border" type="bevelRaised" thickness="2" color="0" colorB="0" colorC="0" colorD="0" />
         <val key="NewButton.fgColor" value="000000" />
+        <val key="newLabel.align" value="4" />
         <val key="splashScreen.bgImage" value="splash.png" />
         <val key="splashScreen.bgType" value="1" />
     </theme>
+    <image name="timesUp.png"  />
     <image name="WHITEBACKGROUND.png"  />
+    <image name="wrong.png"  />
 </resource>

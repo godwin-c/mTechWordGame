@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!--build_version=1.8-->
+    <!--build_version=2.1-->
     
     <!-- IMPORTANT!!! When building for ios: if you don't supply the certificate/provisioning profile etc. you will not 
     be able to run on a regular device (only on jailbroken devices) in that case your package name MUST be: com.codename1.demos.lwuitdemo
@@ -59,7 +59,7 @@
             encoding="${source.encoding}"
             source="1.5"
             target="1.5"
-            bootclasspath="CLDC11.jar"
+            bootclasspath="CLDC11.jar" excludes="${excludes}"
             classpath="${javac.classpath}:${build.classes.dir}">
             <src path="${test.src.dir}"/>
         </javac>        
@@ -73,7 +73,7 @@
 
     <target depends="compile-test" name="-do-test-run">        
         <!-- JavaSE.jar is added here since the test execution might fail otherwise for a pre-existing project -->
-        <java classpath="dist/unitTests.jar:${javac.test.classpath}:${file.reference.JavaSE.jar}" classname="com.codename1.impl.javase.TestRunner">
+        <java classpath="dist/unitTests.jar:${javac.test.classpath}:${file.reference.JavaSE.jar}" classname="com.codename1.impl.javase.TestRunner" excludes="${excludes}">
             <arg value="${codename1.packageName}.${codename1.mainName}" />
         </java>
     </target>
@@ -88,7 +88,7 @@
             encoding="${source.encoding}"
             source="1.5"
             target="1.5"
-            bootclasspath="lib/CLDC11.jar"
+            bootclasspath="lib/CLDC11.jar" excludes="${excludes}"
             classpath="${javac.classpath}:${build.classes.dir}">
             <src path="${src.dir}"/>
         </javac>        
@@ -273,6 +273,15 @@
         </copy>
     </target>
 
+    <target name="copy-desktop-override">
+        <mkdir dir="${build.classes.dir}" />
+        <mkdir dir="override" />
+        <copy todir="${build.classes.dir}">
+            <fileset dir="native/internal_tmp" includes="**/*"/>
+            <fileset dir="lib/impl/native/javase" includes="**/*"/>
+        </copy>
+    </target>
+
     <target name="copy-j2me-override">
         <mkdir dir="${build.classes.dir}" />
         <mkdir dir="override" />
@@ -334,7 +343,43 @@
         </delete>
     </target>
 
-     <target name="build-for-j2me-device" depends="clean,j2me-native-theme-init,copy-j2me-native,copy-j2me-override,copy-libs,jar,clean-j2me-native,clean-override">
+    <target name="build-for-mac-os-x-desktop" depends="clean,copy-desktop-override,copy-libs,jar,clean-override">
+        <codeNameOne 
+            jarFile="${dist.jar}"
+            displayName="${codename1.displayName}"
+            packageName = "${codename1.packageName}"
+            mainClassName = "${codename1.mainName}"
+            version="${codename1.version}"
+            icon="${codename1.icon}"
+            vendor="${codename1.vendor}"
+            subtitle="${codename1.secondaryTitle}"
+
+            targetType="desktop_macosx"
+            />
+        <delete>
+            <fileset dir="${build.classes.dir}" includes="**/*.class"/>
+        </delete>
+    </target>
+    
+    <target name="build-for-windows-desktop" depends="clean,copy-desktop-override,copy-libs,jar,clean-override">
+        <codeNameOne 
+            jarFile="${dist.jar}"
+            displayName="${codename1.displayName}"
+            packageName = "${codename1.packageName}"
+            mainClassName = "${codename1.mainName}"
+            version="${codename1.version}"
+            icon="${codename1.icon}"
+            vendor="${codename1.vendor}"
+            subtitle="${codename1.secondaryTitle}"
+
+            targetType="desktop_windows"
+            />
+        <delete>
+            <fileset dir="${build.classes.dir}" includes="**/*.class"/>
+        </delete>
+    </target>
+
+    <target name="build-for-j2me-device" depends="clean,j2me-native-theme-init,copy-j2me-native,copy-j2me-override,copy-libs,jar,clean-j2me-native,clean-override">
         <codeNameOne
             jarFile="${dist.jar}"
             displayName="${codename1.displayName}"
@@ -367,7 +412,8 @@
         <property name="application.args" value="${codename1.packageName}.${codename1.mainName}"/>
         <property name="javac.source" value="1.5" />
         <property name="javac.target" value="1.5" />
-        <mkdir dir="native/android" />
+        <mkdir dir="native/javase" />
+        <mkdir dir="native/internal_tmp" />
         <mkdir dir="native/ios" />
         <mkdir dir="native/j2me" />
         <mkdir dir="native/rim" />
@@ -381,6 +427,21 @@
         <mkdir dir="lib/impl/native/rim" />
         <mkdir dir="lib/impl/native/win" />
         <installLibs lib="lib" dest="lib/impl" />
+    </target>
+
+    <target name="-post-jar">
+        <mkdir dir="native/javase" />
+        <mkdir dir="native/internal_tmp" />
+        <mkdir dir="lib/impl/native/javase" />
+        <javac destdir="native/internal_tmp"
+            encoding="${source.encoding}"
+            source="1.5"
+            target="1.5"
+            bootclasspath="CLDC11.jar" excludes="${excludes}"
+            classpath="${javac.classpath}:${build.classes.dir}">
+            <src path="native/javase"/>
+            <src path="lib/impl/native/javase"/>
+        </javac>        
     </target>
 
     <target name="-post-clean" depends="refresh-libs">

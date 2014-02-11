@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="playForm" cloudDestinationProperty="playForm" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  <component type="Container" name="Container" cloudDestinationProperty="Container" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+    <layoutConstraint value="North" />
+    <component type="Label" name="tokenLabel" cloudDestinationProperty="Label" text="" >
+      <layoutConstraint value="West" />
+    </component>
+    <component type="Label" name="timeLabel" cloudDestinationProperty="Label1" text="" >
+      <layoutConstraint value="East" />
+    </component>
+  </component>
+  <component type="Container" name="Container1" cloudDestinationProperty="Container1" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+    <layoutConstraint value="Center" />
+    <component type="Container" name="Container6" cloudDestinationProperty="Container6" layout="FlowLayout" flowLayoutFillRows="false" flowLayoutAlign="4" flowLayoutValign="4" >
+      <layoutConstraint value="North" />
+      <component type="TextField" name="displayField" cloudBoundProperty="text" cloudDestinationProperty="displayField" uiid="Label" focusable="false" text="" editable="false" >
+      </component>
+    </component>
+    <component type="Container" name="Container4" cloudDestinationProperty="Container4" layout="FlowLayout" flowLayoutFillRows="false" flowLayoutAlign="4" flowLayoutValign="4" >
+      <layoutConstraint value="Center" />
+      <component type="Label" name="wordLabel" cloudDestinationProperty="wordLabel" text="" >
+      </component>
+    </component>
+  </component>
+  <component type="Container" name="Container2" cloudDestinationProperty="Container2" layout="GridLayout" gridLayoutRows="2" gridLayoutColumns="1" >
+    <layoutConstraint value="South" />
+    <component type="Container" name="Container3" cloudDestinationProperty="Container3" layout="BoxLayout" boxLayoutAxis="Y" >
+      <component type="Button" name="checkButton" cloudDestinationProperty="checkButton" text="Check" >
+      </component>
+    </component>
+    <component type="Container" name="Container5" cloudDestinationProperty="Container5" layout="GridLayout" gridLayoutRows="1" gridLayoutColumns="2" >
+      <component type="Button" name="clearButton" cloudDestinationProperty="clearButton" text="Clear" >
+      </component>
+      <component type="Button" name="newButton" cloudDestinationProperty="newButton" text="New Word" >
+      </component>
+    </component>
+  </component>
+</component>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="MenuForm" cloudDestinationProperty="MenuForm" uiid="splashScreen" layout="BorderLayout" borderLayoutAbsoluteCenter="false" >
+  <component type="Label" name="Label" cloudDestinationProperty="Label" text="" >
+    <layoutConstraint value="North" />
+  </component>
+  <component type="Container" name="Container1" cloudDestinationProperty="Container1" layout="FlowLayout" flowLayoutFillRows="false" flowLayoutAlign="4" flowLayoutValign="0" >
+    <layoutConstraint value="South" />
+    <component type="Container" name="Container" cloudDestinationProperty="Container" layout="BoxLayout" boxLayoutAxis="Y" >
+      <component type="Button" name="playButton" cloudDestinationProperty="Button" text="Play" >
+      </component>
+      <component type="Button" name="instrButton" cloudDestinationProperty="Button1" text="Instructions" >
+      </component>
+      <component type="Button" name="scoresButton" cloudDestinationProperty="Button2" text="High Scores" >
+      </component>
+    </component>
+  </component>
+</component>
